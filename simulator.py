@@ -2,7 +2,7 @@ import math
 import random
 from prettytable import PrettyTable
 import matplotlib.pyplot as plt
-from flask import Flask
+from flask import Flask, request, jsonify
 from flask_cors import CORS 
 
 app = Flask(__name__)
@@ -11,10 +11,10 @@ Lambda = 2.25
 mew = 8.98
 A = 55
 M = 1994
-Z0 = 10112166
+Z0 = 10112166  #ZO initial value
 C = 9
-a = 1
-b = 3
+a = 1  #priority limit
+b = 3  #priority limit
 
 
 def CP(Lambda):
@@ -234,6 +234,16 @@ def qeueing(num_of_cust, arrivals, service):
     print(f"\nServer Utilization Rate: {server_utilization_rate * 100:.2f} %")
     return gantt
 
+@app.route('/post_data', methods=['POST'])
+def post_data():
+    # Get the JSON data from the request
+    data = request.get_json()
+
+    # Process the data (you can do whatever you want with it)
+    result = {'message': 'Data received successfully', 'data': data}
+
+    # Return a JSON response
+    return jsonify(result)
 
 @app.route('/getGanttData')
 def main():
