@@ -16,6 +16,38 @@
             color: #333333;
         }
 
+        .gantt {
+            display: flex;
+            width: 80%;
+            overflow-x: auto;
+            padding: 10px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .elementsTime {
+            padding: 5px;
+        }
+
+        .reditem {
+            background-color: red;
+        }
+
+        .greenitem {
+            background-color: green;
+        }
+
+        .yellowitem {
+            background-color: yellow;
+        }
+
+        .element {
+            display: flex;
+            border: 1px solid gray;
+            padding: 5px;
+            min-width: max-content !important;
+        }
+
         .navbar {
             background-color: #11656b !important;
             color: rgb(255, 255, 255);
@@ -100,60 +132,64 @@
     </nav>
 
     <div class="container mt-5">
-        <form id="myForm" method="POST" class="mb-3" onsubmit="console.log('Form Submitted!');">
-            <!-- <div class="mb-3">
+        <!-- <form id="myForm" method="POST" class="mb-3" onsubmit="console.log('Form Submitted!');"> -->
+        <!-- <div class="mb-3">
                   <button onclick="mM2()" id="mm2" type="button" class="btn btn-primary">M/M/2</button>
                   <button onclick="mG2()" id="mg2" type="button" class="btn btn-primary">M/G/2</button>
                   <button onclick="gG2()" id="mg2" type="button" class="btn btn-primary">G/G/2</button>
             </div> -->
 
-            <div id="lambda-mu-container" class="mb-3">
-                <label for="lambda" class="form-label">Lambda λ</label>
-                <input type="number" class="form-control" name="lambda" id="lambda" placeholder="Enter Arrival Rate"
-                    required>
-            </div>
+        <div id="lambda-mu-container" class="mb-3">
+            <label for="lambda" class="form-label">Lambda λ</label>
+            <input type="number" class="form-control" name="lambda" id="lambda" placeholder="Enter Arrival Rate"
+                required>
+        </div>
 
-            <div id="service-time-container" class="mb-3">
-                <label for="mu" class="form-label">mew µ</label>
-                <input type="number" class="form-control" name="mu" id="mew" placeholder="Enter Mew" required>
-            </div>
+        <div id="service-time-container" class="mb-3">
+            <label for="mu" class="form-label">mew µ</label>
+            <input type="number" class="form-control" name="mu" id="mew" placeholder="Enter Mew" required>
+        </div>
 
 
-            <div id="variance-of-arrival" class="mb-3">
-                <label for="mu" class="form-label">A</label>
-                <input type="number" class="form-control" name="mu" id="A" placeholder="Enter Value" required>
-            </div>
-            <div id="variance-of-arrival" class="mb-3">
-                <label for="mu" class="form-label">M</label>
-                <input type="number" class="form-control" name="mu" id="M" placeholder="Enter Value" required>
-            </div>
+        <div id="variance-of-arrival" class="mb-3">
+            <label for="mu" class="form-label">A</label>
+            <input type="number" class="form-control" name="mu" id="A" placeholder="Enter Value" required>
+        </div>
+        <div id="variance-of-arrival" class="mb-3">
+            <label for="mu" class="form-label">M</label>
+            <input type="number" class="form-control" name="mu" id="M" placeholder="Enter Value" required>
+        </div>
 
-            <div id="mean-service-time" class="mb-3">
-                <label for="mu" class="form-label">Z0</label>
-                <input type="number" class="form-control" name="mu" id="Zo" placeholder="Enter Value" required>
-            </div>
+        <div id="mean-service-time" class="mb-3">
+            <label for="mu" class="form-label">Z0</label>
+            <input type="number" class="form-control" name="mu" id="Zo" placeholder="Enter Value" required>
+        </div>
 
-            <div id="mean-service-time" class="mb-3">
-                <label for="mu" class="form-label">C</label>
-                <input type="number" class="form-control" name="mu" id="C" placeholder="Enter Value" required>
-            </div>
+        <div id="mean-service-time" class="mb-3">
+            <label for="mu" class="form-label">C</label>
+            <input type="number" class="form-control" name="mu" id="C" placeholder="Enter Value" required>
+        </div>
 
-            <div id="mean-service-time" class="mb-3">
-                <label for="mu" class="form-label">a</label>
-                <input type="number" class="form-control" name="mu" id="a" placeholder="Enter Value" required>
-            </div>
+        <div id="mean-service-time" class="mb-3">
+            <label for="mu" class="form-label">a</label>
+            <input type="number" class="form-control" name="mu" id="a" placeholder="Enter Value" required>
+        </div>
 
-            <div id="mean-service-time" class="mb-3">
-                <label for="mu" class="form-label">b</label>
-                <input type="number" class="form-control" name="mu" id="b" placeholder="Enter Value" required>
-            </div>
+        <div id="mean-service-time" class="mb-3">
+            <label for="mu" class="form-label">b</label>
+            <input type="number" class="form-control" name="mu" id="b" placeholder="Enter Value" required>
+        </div>
 
-            <button type="submit" onclick="submitForm()" class="btn btn-primary">Calculate</button>
-        </form>
+        <button type="submit" onclick="submitForm()" class="btn btn-primary">Calculate</button>
+        <!-- </form> -->
 
         <div id="results" class="results-container">
             <h2 class="result-text">Results:</h2>
-            <div id="1" class="result-card">
+            <div id="container" class="gantt">
+                <div class="elementsTime" id="firstDiv">0</div>
+
+            </div>
+            <!-- <div id="1" class="result-card">
 
             </div>
 
@@ -175,9 +211,10 @@
 
             <div id="6" class="result-card">
 
-            </div>
+            </div> -->
         </div>
     </div>
+
 
     <footer class="footer">
         <p>© 2023 Operations Research Project by Rabi Ahmed, Saad Shariq, Noor Sheikh, Jaffar</p>

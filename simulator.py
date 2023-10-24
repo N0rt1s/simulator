@@ -7,12 +7,20 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app) 
-Lambda = 2.25
-mew = 8.98
-A = 55
-M = 1994
-Z0 = 10112166  #ZO initial value
-C = 9
+# Lambda = 2.25
+# mew = 8.98
+# A = 55
+# M = 1994
+# Z0 = 10112166  #ZO initial value
+# C = 9
+# a = 1  #priority limit
+# b = 3  #priority limit
+Lambda = 0
+mew = 0
+A = 0
+M = 0
+Z0 = 0  #ZO initial value
+C = 0
 a = 1  #priority limit
 b = 3  #priority limit
 
@@ -74,6 +82,7 @@ def generate_priority(A, M, Z0, C, a, b, num_of_cust):
     R = []
     RanNum = []
     GP = []
+    print(A,M,Z0,C)
     for i in range(0, num_of_cust):
         temp = (A * (Z[i]) + C) % M
         Z.append(temp)
@@ -84,7 +93,7 @@ def generate_priority(A, M, Z0, C, a, b, num_of_cust):
     Z.remove(Z[-1])
     return Z, R, RanNum, GP
 
-def qeueing(num_of_cust, arrivals, service):
+def qeueing(A, M, Z0, C, a, b,num_of_cust, arrivals, service):
     Z, R, RanNum, GP = generate_priority(A, M, Z0, C, a, b, num_of_cust)
     arrived = []
     labels = []
@@ -247,6 +256,12 @@ def post_data():
 
 @app.route('/getGanttData')
 def main():
+    Lambda = float(request.args.get('lamb'))
+    mew = float(request.args.get('mew'))
+    A = int(request.args.get('A'))
+    M = int(request.args.get('M'))
+    Z0 = int(request.args.get('Z0'))
+    C = int(request.args.get('C'))
     arr1, num_of_cust = CP(Lambda)
     arr2 = CPlookUp(Lambda, num_of_cust)
     IA = InterArrival(arr1, arr2, num_of_cust)
@@ -254,13 +269,19 @@ def main():
     Arrivals(arrivals, IA, num_of_cust)
     IA.insert(0, 0)
     service = Service(num_of_cust)
-    gantt=qeueing(num_of_cust, arrivals, service)
+    gantt=qeueing(A, M, Z0, C, a, b,num_of_cust, arrivals, service)
     return gantt
 
 @app.route('/calculate', methods=['POST'])
 def calculate():
-    data = request.form  # This contains the form data
+    data = request.get_json() # This contains the form data
     # Process the data as needed
+    Lambda = data["Lambda"]
+    mew = data["mew"]
+    A = data["A"]
+    M = data["M"]
+    Z0 = data["Zo"]  #ZO initial value
+    C = data["C"]
     print(f"Received data: {data}")
     return f"Received data: {data}"
 
