@@ -257,6 +257,13 @@ def main():
     gantt=qeueing(num_of_cust, arrivals, service)
     return gantt
 
+@app.route('/calculate', methods=['POST'])
+def calculate():
+    data = request.form  # This contains the form data
+    # Process the data as needed
+    print(f"Received data: {data}")
+    return f"Received data: {data}"
+
 
 if __name__ == "__main__":
     # main()

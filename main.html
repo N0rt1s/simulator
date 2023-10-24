@@ -100,7 +100,7 @@
     </nav>
 
     <div class="container mt-5">
-        <form action="/calculate" method="POST" class="mb-3">
+        <form id="myForm" method="POST" class="mb-3" onsubmit="console.log('Form Submitted!');">
             <!-- <div class="mb-3">
                   <button onclick="mM2()" id="mm2" type="button" class="btn btn-primary">M/M/2</button>
                   <button onclick="mG2()" id="mg2" type="button" class="btn btn-primary">M/G/2</button>
@@ -115,40 +115,40 @@
 
             <div id="service-time-container" class="mb-3">
                 <label for="mu" class="form-label">mew µ</label>
-                <input type="number" class="form-control" name="mu" id="stc" placeholder="Enter Service Rate" required>
+                <input type="number" class="form-control" name="mu" id="mew" placeholder="Enter Mew" required>
             </div>
 
 
             <div id="variance-of-arrival" class="mb-3">
                 <label for="mu" class="form-label">A</label>
-                <input type="number" class="form-control" name="mu" id="voa" placeholder="Enter Value" required>
+                <input type="number" class="form-control" name="mu" id="A" placeholder="Enter Value" required>
             </div>
             <div id="variance-of-arrival" class="mb-3">
                 <label for="mu" class="form-label">M</label>
-                <input type="number" class="form-control" name="mu" id="voa" placeholder="Enter Value" required>
+                <input type="number" class="form-control" name="mu" id="M" placeholder="Enter Value" required>
             </div>
 
             <div id="mean-service-time" class="mb-3">
                 <label for="mu" class="form-label">Z0</label>
-                <input type="number" class="form-control" name="mu" id="mst" placeholder="Enter Value" required>
+                <input type="number" class="form-control" name="mu" id="Zo" placeholder="Enter Value" required>
             </div>
 
-            <div hidden id="variance-of-service" class="mb-3">
-                <label for="mu" class="form-label">c</label>
-                <input type="number" class="form-control" name="mu" id="vof" placeholder="Enter Value" required>
+            <div id="mean-service-time" class="mb-3">
+                <label for="mu" class="form-label">C</label>
+                <input type="number" class="form-control" name="mu" id="C" placeholder="Enter Value" required>
             </div>
 
-            <div hidden id="variance-container" class="mb-3">
-                <label for="variance" class="form-label">a</label>
-                <input type="number" class="form-control" name="variance" id="variance" placeholder="Variance" required>
+            <div id="mean-service-time" class="mb-3">
+                <label for="mu" class="form-label">a</label>
+                <input type="number" class="form-control" name="mu" id="a" placeholder="Enter Value" required>
             </div>
 
-            <div hidden id="alpha-container" class="mb-3">
-                <label for="alpha" class="form-label">b</label>
-                <input type="number" class="form-control" name="alpha" id="alpha" placeholder="Alpha" required>
+            <div id="mean-service-time" class="mb-3">
+                <label for="mu" class="form-label">b</label>
+                <input type="number" class="form-control" name="mu" id="b" placeholder="Enter Value" required>
             </div>
 
-            <button onclick="calculate()" type="submit" class="btn btn-primary">Calculate</button>
+            <button type="submit" onclick="submitForm()" class="btn btn-primary">Calculate</button>
         </form>
 
         <div id="results" class="results-container">

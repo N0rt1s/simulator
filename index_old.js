@@ -188,6 +188,27 @@ const calculate=()=>{
 
 }   
 
-
-
-  
+function submitForm() {
+    // ... your processing logic ...
+    const data = {
+        Lambda: document.getElementById('lambda').value(),
+        mew: document.getElementById('mew').value(),
+        A: document.getElementById('A').value(),
+        M: document.getElementById('M').value(),
+        C: document.getElementById('C').value(),
+        a: document.getElementById('a').value(),
+        b: document.getElementById('b').value(),
+        Zo: document.getElementById('Zo').value()
+    }
+    fetch("http://127.0.0.1:5000/calculate", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // Add any other headers if needed
+        },
+        body: JSON.stringify(data) // Convert your data to JSON format
+      })
+      .then((data)=>{
+        console.log("error")
+      })
+    }
