@@ -3,10 +3,10 @@ import random
 from prettytable import PrettyTable
 import matplotlib.pyplot as plt
 from flask import Flask, request, jsonify
-from flask_cors import CORS 
+from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app) 
+CORS(app)
 # Lambda = 2.25
 # mew = 8.98
 # A = 55
@@ -19,10 +19,10 @@ Lambda = 0
 mew = 0
 A = 0
 M = 0
-Z0 = 0  #ZO initial value
+Z0 = 0  # ZO initial value
 C = 0
-a = 1  #priority limit
-b = 3  #priority limit
+a = 1  # priority limit
+b = 3  # priority limit
 
 
 def CP(Lambda):
@@ -82,7 +82,7 @@ def generate_priority(A, M, Z0, C, a, b, num_of_cust):
     R = []
     RanNum = []
     GP = []
-    print(A,M,Z0,C)
+    print(A, M, Z0, C)
     for i in range(0, num_of_cust):
         temp = (A * (Z[i]) + C) % M
         Z.append(temp)
@@ -93,11 +93,11 @@ def generate_priority(A, M, Z0, C, a, b, num_of_cust):
     Z.remove(Z[-1])
     return Z, R, RanNum, GP
 
-def qeueing(A, M, Z0, C, a, b,num_of_cust, arrivals, service):
+
+def qeueing(A, M, Z0, C, a, b, num_of_cust, arrivals, service):
     Z, R, RanNum, GP = generate_priority(A, M, Z0, C, a, b, num_of_cust)
     arrived = []
     labels = []
-    gantt = []
     for i in range(len(arrivals)):
         arrived.append(
             {
@@ -126,6 +126,7 @@ def qeueing(A, M, Z0, C, a, b,num_of_cust, arrivals, service):
     }
     total_service_time = 0
     total_busy_time = 0
+    gantt = [{"endTime": arrived[0]["arrival_time"], "name": "start", "priority": 0}]
 
     while executed < n:
         for p in arrived:
@@ -144,14 +145,20 @@ def qeueing(A, M, Z0, C, a, b,num_of_cust, arrivals, service):
                             f"Leaving {current['name']} and Switching to process {p['name']} due to priority."
                             "\n"
                         )
-                        gantt.append({"endTime": time, "name": current["name"],"priority":current["priority"]})
+                        gantt.append(
+                            {
+                                "endTime": time,
+                                "name": current["name"],
+                                "priority": current["priority"],
+                            }
+                        )
                     current = p
 
         if not current and waiting_queue:
             current = min(waiting_queue, key=lambda x: remaining_times[x["name"]][1])
 
         if not current and not waiting_queue:
-            gantt.append({"endTime": time, "name": "Server Idle","priority":0})
+            gantt.append({"endTime": time, "name": "Server Idle", "priority": 0})
             print("\n" f"Time {time}: Server is idle." "\n")
 
         if current:
@@ -164,7 +171,13 @@ def qeueing(A, M, Z0, C, a, b,num_of_cust, arrivals, service):
             total_busy_time += 1
             if remaining_times[current["name"]][0] <= 0:
                 print(current)
-                gantt.append({"endTime": time, "name": current["name"],"priority":current["priority"]})
+                gantt.append(
+                    {
+                        "endTime": time,
+                        "name": current["name"],
+                        "priority": current["priority"],
+                    }
+                )
                 executed_processes.add(current["name"])
                 remaining_times[current["name"]][3] = time + 1  # Service end time
                 waiting_queue = [
@@ -243,25 +256,27 @@ def qeueing(A, M, Z0, C, a, b,num_of_cust, arrivals, service):
     print(f"\nServer Utilization Rate: {server_utilization_rate * 100:.2f} %")
     return gantt
 
-@app.route('/post_data', methods=['POST'])
+
+@app.route("/post_data", methods=["POST"])
 def post_data():
     # Get the JSON data from the request
     data = request.get_json()
 
     # Process the data (you can do whatever you want with it)
-    result = {'message': 'Data received successfully', 'data': data}
+    result = {"message": "Data received successfully", "data": data}
 
     # Return a JSON response
     return jsonify(result)
 
-@app.route('/getGanttData')
+
+@app.route("/getGanttData")
 def main():
-    Lambda = float(request.args.get('lamb'))
-    mew = float(request.args.get('mew'))
-    A = int(request.args.get('A'))
-    M = int(request.args.get('M'))
-    Z0 = int(request.args.get('Z0'))
-    C = int(request.args.get('C'))
+    Lambda = float(request.args.get("lamb"))
+    mew = float(request.args.get("mew"))
+    A = int(request.args.get("A"))
+    M = int(request.args.get("M"))
+    Z0 = int(request.args.get("Z0"))
+    C = int(request.args.get("C"))
     arr1, num_of_cust = CP(Lambda)
     arr2 = CPlookUp(Lambda, num_of_cust)
     IA = InterArrival(arr1, arr2, num_of_cust)
@@ -269,18 +284,19 @@ def main():
     Arrivals(arrivals, IA, num_of_cust)
     IA.insert(0, 0)
     service = Service(num_of_cust)
-    gantt=qeueing(A, M, Z0, C, a, b,num_of_cust, arrivals, service)
+    gantt = qeueing(A, M, Z0, C, a, b, num_of_cust, arrivals, service)
     return gantt
 
-@app.route('/calculate', methods=['POST'])
+
+@app.route("/calculate", methods=["POST"])
 def calculate():
-    data = request.get_json() # This contains the form data
+    data = request.get_json()  # This contains the form data
     # Process the data as needed
     Lambda = data["Lambda"]
     mew = data["mew"]
     A = data["A"]
     M = data["M"]
-    Z0 = data["Zo"]  #ZO initial value
+    Z0 = data["Zo"]  # ZO initial value
     C = data["C"]
     print(f"Received data: {data}")
     return f"Received data: {data}"

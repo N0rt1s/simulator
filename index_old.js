@@ -219,18 +219,23 @@ function submitForm() {
             console.log(data);
             let container = document.getElementById("container")
             data.forEach((item, index) => {
+                if (item.name == "start") {
+                    container.innerHTML += `<div class="elementsTime">${item.endTime}</div>
+                    `;
+                }
                 if (item.name == "Server Idle" && data[index + 1].name != "Server Idle") {
                     container.innerHTML += `
-                <div class="element ${item.priority == 1 ? `reditem` : item.priority == 2 ? `yellowitem` : `greenitem`}">${item.name}</div>
+                <div class="element ${item.priority == 1 ? `reditem` : item.priority == 2 ? `yellowitem` : item.priority == 0 ? `grayitem` : `greenitem`}">${item.name}</div>
                 <div class="elementsTime">${item.endTime}</div>
             `;
                 }
                 else if (item.name == "Server Idle" && data[index + 1].name == "Server Idle") {
                 }
+
                 else {
 
                     container.innerHTML += `
-                    <div class="element ${item.priority == 1 ? `reditem` : item.priority == 2 ? `yellowitem` : `greenitem`}">${item.name}</div>
+                    <div class="element ${item.priority == 1 ? `reditem` : item.priority == 2 ? `yellowitem` : item.priority == 0 ? `grayitem` : `greenitem`}">${item.name}</div>
                     <div class="elementsTime">${item.endTime}</div>
                 `;
                 }
